@@ -1,0 +1,168 @@
+<div id="map" style="width:100%; height: 400px;"></div>
+<div class="iw_inner">   <h3>서울특별시청</h3>   <p>서울특별시 중구 태평로1가 31 | 서울특별시 중구 세종대로 110 서울특별시청<br>       <img src="./img/hi-seoul.jpg" width="55" height="55" alt="서울시청" class="thumb" /><br>       02-120 | 공공,사회기관 > 특별,광역시청<br>       <a href="http://www.seoul.go.kr" target="_blank">www.seoul.go.kr/</a>   </p></div>
+
+
+
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=FZpcFUXI8gbUymcmQJMG&submodules=geocoder"></script>
+<script type="text/javascript">
+    var mapOptions = {
+        scaleControl: false,
+        logoControl: false,
+        mapDataControl: false,
+        zoomControl: true,
+        zoomControlOptions: {
+    //    style: naver.maps.ZoomControlStyle.SMALL,
+        position: naver.maps.Position.RIGHT_BOTTOM
+        },
+        minZoom: 1,
+        maxZoom: 13
+    };
+    var map = new naver.maps.Map('map', mapOptions);
+    var naveraddr = new naver.maps.LatLng(37.3595704, 127.105399);
+    map.setCenter(naveraddr); // 중심 좌표 이동
+    map.setZoom(15);     // 줌 레벨 변경
+    
+    
+    // var data = [
+    //     {name: "아리차이", address: "서울특별시 관악구 신림동길 4", link: "https://store.naver.com/restaurants/detail?id=11704746", x: 126.9282765, y: 37.4876462},
+    //     {name: "한우등촌골", address: "서울특별시 강서구 등촌로 201", link: "https://store.naver.com/restaurants/detail?id=35966485", x:126.86273, y: 37.5476847},
+    //     {name: "수유부추곱창", address: "서울특별시 강북구 도봉로87길 26-21", link: "https://store.naver.com/restaurants/detail?id=37111836", x: 127.0247721, y: 37.6393168},
+    //     {name: "강천민물장어", address:"서울특별시 강동구 올림픽로 834 한강시티라이프", link: "https://store.naver.com/restaurants/detail?id=18905396", x: 127.1297937, y: 37.5553916 }
+    // ];
+    
+    var data = <%= @schools.html_safe %>;
+    
+    var markers = [];
+    var infoWindows = [];
+    
+    for (var i=0; i < data.length; i++) {
+        var restaurant = data[i];
+        var content = [
+            '<h3>'+restaurant.name+'</h3>', //<h3>아리차이</h3>
+            '<p>'+restaurant.address+'</p>',//<p>서울특별시 관악구 신림동길 4</p>
+          //  '<a href='+restaurant.link+'target="_blank">'+"알아보기"+'</a>'
+            ].join("");
+            
+        var marker = new N.Marker({
+            position: new N.LatLng(restaurant.lat, restaurant.lng),
+            map: map,
+            icon: {
+                url: 'https://navermaps.github.io/maps.js/docs' +'/img/example/sally.png',
+                size: new naver.maps.Size(50, 50),
+                origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(25, 25)
+            },
+            animation: 1
+        });
+        
+        var infoWindow = new N.InfoWindow({
+            content: content
+        });
+        
+        markers.push(marker);
+        infoWindows.push(infoWindow);
+    }
+
+
+
+    // var jeju = new naver.maps.LatLng(33.3590628, 126.534361);
+    // var naveraddr = new naver.maps.LatLng(37.3595704, 127.105399);
+    // var cityhall = new naver.maps.LatLng(37.5666805, 126.9784147);
+    // var addrs = [jeju, naveraddr, cityhall];
+    
+    
+
+    // var content = `
+    //     <p>여기가 네이버입니다.</p>
+    //     <a href="http://naver.com" target="_blank">네이버로 이동!</a>
+    // `;
+
+    // var content2 = `
+    //     <p>제주도에 오신 것을 환영합니다.</p>
+    //     <a href="http://daum.net" target="_blank">제주도로 이동</a>
+    // `;
+
+    // var content3 = [
+    //     '<div class="iw_inner">',
+    //     '   <h3>서울특별시청</h3>',
+    //     '   <p>서울특별시 중구 태평로1가 31 | 서울특별시 중구 세종대로 110 서울특별시청<br>',
+    //     '       <img src="./img/hi-seoul.jpg" width="55" height="55" alt="서울시청" class="thumb" /><br>',
+    //     '       02-120 | 공공,사회기관 > 특별,광역시청<br>',
+    //     '       <a href="http://www.seoul.go.kr" target="_blank">www.seoul.go.kr/</a>',
+    //     '   </p>',
+    //     '</div>'
+    // ].join('');
+    
+    // var contents = [content, content2, content3];
+    
+    // var markers =[];
+    // var infoWindows = [];
+    
+    //  for (var i=0; i < addrs.length; i++) {
+    //     var marker = new N.Marker({
+    //         position: addrs[i],
+    //         map: map
+    //     });
+    //     markers.push(marker);
+        
+    //     var infoWindow = new N.InfoWindow({
+    //         content: contents[i]
+    //     });
+    //     infoWindows.push(infoWindow);
+    // }
+    
+    // var marker = new naver.maps.Marker({
+    //     position: naveraddr,
+    //     map: map
+    // });
+    
+    // var marker2 = new N.Marker({
+    //     position: jeju,
+    //     map: map
+    // });
+
+    // var marker3 = new naver.maps.Marker({
+    //     map: map,
+    //     position: cityhall
+    // });
+   
+    // var markers = [marker, marker2, marker3];
+    
+    // var infowindow = new N.InfoWindow({
+    //     content: content
+    // });
+    
+    
+    // var infowindow2 = new N.InfoWindow({
+    //     content: content2
+    // });
+    
+    // var infowindow3 = new naver.maps.InfoWindow({
+    //     content: content3
+    // });
+    
+    // var infoWindows = [infowindow, infowindow2, infowindow3];
+
+    // naver.maps.Event.addListener(marker, "click", getClickHandler(0));
+
+    // naver.maps.Event.addListener(marker2, "click", getClickHandler(1));
+
+    // naver.maps.Event.addListener(marker3, "click", getClickHandler(2));
+    
+    for (var i=0, ii=markers.length; i<ii; i++) {
+    naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+}
+    
+    function getClickHandler(seq) {
+    return function(e) {
+        var marker = markers[seq],
+            infoWindow = infoWindows[seq];
+
+        if (infoWindow.getMap()) {
+            infoWindow.close();
+        } else {
+            infoWindow.open(map, marker);
+        }
+    }
+}
+</script>
